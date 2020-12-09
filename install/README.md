@@ -62,7 +62,7 @@ https://docs.docker.com/engine/install/
 
 <br>
 
-看到模擬逆邊顯示已啟用就沒問題了。
+看到模擬那邊顯示已啟用就沒問題了。
 
 <br>
 <br>
@@ -71,9 +71,9 @@ https://docs.docker.com/engine/install/
 
 <br>
 
-Docker Desktop 可以在 Docker Hub 上下載 [鏈結點這裡](https://hub.docker.com/editions/community/docker-ce-desktop-windows/) 下載好後直接安裝即可。
+Docker Desktop 可以在 Docker Hub 上下載， [鏈結點這裡](https://hub.docker.com/editions/community/docker-ce-desktop-windows/)。 下載好後直接安裝即可。
 
-如果主機上的 WSL 版本不是 2 版的話，Docker Desktop 會顯示啟動失敗要手動安裝 WSL2，這個時候再[點這裡](http://aka.ms/wsl2kernelmsix64)下載 WSL 2 進行安裝，安裝好後重啟 Docker Desktop 就沒問題了。
+如果主機上的 WSL 版本不是第 2 版的話，Docker Desktop 會顯示啟動失敗要手動安裝 WSL2，這個時候再[點這裡](http://aka.ms/wsl2kernelmsix64)下載 WSL 2 進行安裝，安裝好後重啟 Docker Desktop 就沒問題了。
 
 <br>
 <br>
