@@ -37,7 +37,9 @@ Docker 是由文件系統疊加而成，最底端視引導文件系統（bootfs�
 
 * [拉取鏡像 `pull`](pull)
 
-* [建構鏡像 （ 使用 Dockerfile ）](dockerfile)
+* [建構鏡像 （ 使用 Dockerfile ）](dockerfile_build)
+
+* [Dockerfile 指令](dockerfile_cmd)
 
 
 
