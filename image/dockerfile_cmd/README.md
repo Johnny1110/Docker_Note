@@ -161,6 +161,8 @@ RUN touch test2.txt
 sudo docker run -it -w /var/log ubuntu pwd
 ```
 
+
+
 <br>
 <br>
 
@@ -172,6 +174,55 @@ sudo docker run -it -w /var/log ubuntu pwd
 <div id="4">
 
 ## `ENV`
+
+<br>
+
+`ENV` 指令用來設定環境變數，這個被設定的環境變數可以被之後的所有 `RUN` 指令使用。就像是在命令前指定環境變數一樣
+
+原本是：
+
+```dockerfile
+RUN java -jar test.jar
+```
+
+<br>
+
+現在是：
+
+```dockerfile
+ENV JAVA_PATH="C:/dev/java/jdk13" java -jar test.jar
+```
+
+<br>
+
+`ENV` 也可以一次指定多個環境變數：
+
+```dockerfile
+ENV JAVA_PATH="C://dev/java/jdk13" MAVEN_PATH="C://dev/maven"
+```
+
+<br>
+
+在其他 Dockerfile 指令中使用環境變量：
+
+```dockerfile
+ENV TARGET_DIR /opt/app
+WORKDIR $TARGET_DIR
+```
+
+第二行的 `WORKDIR $TARGET_DIR` 等價於 `WORKDIR /opt/app`。
+
+<br>
+
+如果我們 `docker exec` 進入容器內，輸入 `env` 查看環境變數一樣也可以找到我們在 Dockerfile 的環境變數相關設定。
+
+<br>
+
+可以在 `docker run` 指令中加入環境變量設定。
+
+```dockerfile
+sudo docker run -it -e "WEB_PORT=8080" ubuntu env
+```
 
 <br>
 <br>
@@ -186,6 +237,14 @@ sudo docker run -it -w /var/log ubuntu pwd
 ## `USER`
 
 <br>
+
+docker 預設使用 root 帳號來運行，我們可以使用 `USER` 指令來切換使用者。
+
+```dockerfile
+USER username
+```
+
+<br>
 <br>
 
 ---
@@ -196,6 +255,109 @@ sudo docker run -it -w /var/log ubuntu pwd
 <div id="6">
 
 ## `VOLUME`
+
+<br>
+
+volume 的觀念對 docker 來說非常重要，這在後面會單獨抽出來做詳細解釋，這邊看過去有點印象就可以了，之後也可以回來翻一下查看用法。
+
+<br>
+
+這邊簡單提一下 volume 的作用，有使用過 linux 的人應該都熟悉（`mount`）掛載這一個概念，可以把其他硬碟掛載到任意一個空資料夾。volume 跟掛載有點像，可以把主機上的資料夾共享給容器，也可以讓多容器共用同一個主機上的資料夾。
+
+<br>
+
+這邊詳細列出 volume 的作用：
+
+* volume 可以在容器間共享重複使用。
+
+* 一個容器可以不必跟其他容器共享 volume。
+
+* 在主機上對 volume 作修改可以立即對容器生效。
+
+* volumne 會一直存在並被 docker 記錄直到沒有容器使用它。
+
+* 如果不想把一些重要資訊（例如 source code）建構到鏡像中，可以使用 volume。
+
+<br>
+
+或許還是有點不太好理解，這裡直接舉一個例子說明。假設我們今天架設了一個帶有 nginx 服務的容器，如果我們要對 nginx 的靜態頁面更新照理說應該要把新做好的文件想方設法搬進容器內再部屬，如果使用 volume，把 nginx 靜態文件配置路徑設定成 volume（綁定主機資料夾），這樣一來我們啟動容器後就不必在去動容器了，有靜態文件更新直接去主機上綁定的資料夾更新資料就沒問題了。
+
+<br>
+
+在 `docker run` 指令中，可以用 `-v` 來宣告 volume：
+
+```bash
+sudo docker run -it --name container-test -v /data ubuntu /bin/bash
+```
+
+上面的 `-v` 命令會將 `/data` 掛載到容器內，我們可以在主機上操作此目錄，當然，在容器內修改此目錄內容主機同樣也看得見。要想查詢 volume 在主機上位置可以這樣：
+
+```bash
+docker inspect -f "{{range.Mounts}}{{.}}{{end}}" container-test
+```
+<br>
+
+以這份演示為例，我們可以看到如下回應：
+
+![1](imgs/1.png)
+
+<br>
+
+所有的 volume 都存放在 `/var/lib/docker/volumes/` 下面。我們可以測試看看在 `/data` 裡面加入一個自訂文件，然後 `docker exec` 進入容器內看看。
+
+<br>
+
+![2](imgs/2.png)
+
+<br>
+
+
+
+<br>
+
+在 Dockerfile 中指定 volume：
+
+```dockerfile
+VOLUME ["/data"]
+```
+
+<br>
+<br>
+<br>
+
+另外還要提到一點 `-v` 能做到但是 Dockerfile 做不到的事情，就是 `-v` __可以指定 volume 綁定的主機自訂資料夾__，像下面這樣：
+
+```bash
+docker run -v /home/johnny/lib/data:/data ubuntu ls /data
+```
+
+<br>
+
+這樣一來本機的 `/home/johnny/lib/data` 資料夾就綁定到容器內的 `/data` 了。
+
+<br>
+
+網路上可能會比較常看到一些花式用法比如 ：
+
+```bash
+docker run -v $(pwd):/data ubuntu ls /data
+```
+
+<br>
+
+pwd 不用多說大家應該也知道，就是目前的工作目錄，起到的作用跟上面也一樣。
+
+<br>
+
+最後補充一點，一個容器要訪問另一個容器正在使用的 volume 方法可以像這樣：
+
+```bash
+docker run -it --volumes-from container-test --name test2 ubuntu /bin/bash
+```
+
+<br>
+
+以上就是對 volume 的簡單介紹，之後會找一個章節更加詳細的補充。
 
 <br>
 <br>
@@ -210,6 +372,30 @@ sudo docker run -it -w /var/log ubuntu pwd
 ## `ADD`
 
 <br>
+
+`ADD` 指令用來將主機建構目錄下的文件複製到鏡像中。在 Dockerfile 可以這樣：
+
+```dockerfile
+ADD test.txt /root/test.txt
+```
+
+這裡 `ADD` 指令會將當前建構目錄下的 `test.txt` 檔案（或目錄）複製到鏡像中 `/root/test.txt`。
+
+<br>
+
+__注意重點：__ 在 `ADD` 文件時，Docker 通過目的地址結尾處的字符來判斷，不管是 src 還是 dest，如果目標地址以 `/` 結尾的，那麼 docker 就會認為要複製的是一個目錄，否則就是文件。
+
+<br>
+
+還有一點要補充，就是 `ADD` 指令會自動解壓縮，例如：
+
+```dockerfile
+ADD bag.tar.gz /var/www/wordpress/
+```
+
+這條命令會把壓縮檔 `bag.tar.gz` 的內容解壓縮到 `/var/www/wordpress/`
+
+<br>
 <br>
 
 ---
@@ -220,6 +406,16 @@ sudo docker run -it -w /var/log ubuntu pwd
 <div id="8">
 
 ## `COPY`
+
+<br>
+
+`COPY` 指令類似 `ADD`，不同的是，`COPY` 不會雞婆的幫你解壓縮：
+
+```dockerfile
+COPY conf.d /etc/apache2/
+```
+
+這個指令會把當前建構目錄下的 `conf.d` 檔案複製到鏡像中的 `/etc/apache2/` 目錄下。
 
 <br>
 <br>
@@ -234,6 +430,19 @@ sudo docker run -it -w /var/log ubuntu pwd
 ## `LABEL`
 
 <br>
+
+`LABEL` 指令用於為 docker 添加 metadata，以下作幾個示範：
+
+```dockerfile
+LABEL version="1.0"
+LABEL location="TAIWAN" type="Data Center" role="Web Server"
+```
+
+<br>
+
+可以使用 `docker inspect` 來查看容器 label 資訊，這邊就不多做演示了。
+
+<br>
 <br>
 
 ---
@@ -244,6 +453,10 @@ sudo docker run -it -w /var/log ubuntu pwd
 <div id="10">
 
 ## `STOPSIGNAL`
+
+<br>
+
+`STOPSIGNAL` 用來要停止容器時發送什麼系統信號給容器。
 
 <br>
 <br>
@@ -258,6 +471,31 @@ sudo docker run -it -w /var/log ubuntu pwd
 ## `ARG`
 
 <br>
+
+`ARG` 指令可以在 `docker build` 命令運行時給建構 runtime 的變量，當我們建構鏡像時使用 `--build-arg` 就可以了，我們只能在建構時指定 Dockerfile 文件中定義好的參數：
+
+```dockerfile
+ARG build
+ARG webapp_user=johnny
+```
+
+<br>
+
+第二行 `webapp_user` 被指定了一個預設值，如果在使用建構指令 `docker build ` 時沒有為他指定值就會使用 `johnny` 這個預設時。
+
+<br>
+
+在 `docker build` 時指定建構變數：
+
+```bash
+docker build --build-arg build=1111 -t johnny1110/webapp .
+```
+
+<br>
+
+這樣一來在建構 runtime 就會有 2 個參數了。 build = 1111 且 webapp_user = johnny
+
+<br>
 <br>
 
 ---
@@ -267,7 +505,11 @@ sudo docker run -it -w /var/log ubuntu pwd
 
 <div id="12">
 
-## `ONBUILD`
+## `ONBUILD` 
+
+<br>
+
+`ONBUILD`
 
 <br>
 <br>
