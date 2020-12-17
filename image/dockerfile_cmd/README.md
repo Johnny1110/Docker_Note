@@ -179,7 +179,14 @@ sudo docker run -it -w /var/log ubuntu pwd
 
 `ENV` 指令用來設定環境變數，這個被設定的環境變數可以被之後的所有 `RUN` 指令使用。就像是在命令前指定環境變數一樣
 
-原本是：
+
+我們先設定一個環境變數：
+
+```dockerfile
+ENV JAVA_PATH C:/dev/java/jdk13
+```
+
+然後在下面一行 `RUN` 一個指令：
 
 ```dockerfile
 RUN java -jar test.jar
@@ -187,10 +194,10 @@ RUN java -jar test.jar
 
 <br>
 
-現在是：
+在容器的角度看來整體就會像這樣：
 
 ```dockerfile
-ENV JAVA_PATH="C:/dev/java/jdk13" java -jar test.jar
+JAVA_PATH="C:/dev/java/jdk13" java -jar test.jar
 ```
 
 <br>
@@ -509,7 +516,125 @@ docker build --build-arg build=1111 -t johnny1110/webapp .
 
 <br>
 
-`ONBUILD`
+`ONBUILD` 指令的作用是當一個鏡像被用來當作其他鏡像的基礎鏡像時，那被當作基礎鏡像的 `ONBUILD` 就將被觸發。
 
 <br>
 <br>
+<br>
+
+以防忘記，這邊簡單重述一下什麼是基礎鏡像假術我們今天要建立一個 Dockerfile:
+
+```dockerfile
+FROM ubuntu:20.04
+...
+```
+
+<br>
+
+第一行我們用 `FROM` 其實就是在指定基礎鏡像，意思是我們現在的這個鏡像是要基於 ubuntu:20.04 鏡像來建立。
+
+<br>
+<br>
+<br>
+
+要想快速了解 `ONBUILD` 的作用是什麼，直接用實做的方式介紹最直接：
+
+<br>
+
+我們新建一個資料夾名為 nginx 在資料夾內為 nginx 鏡像建構一個 Dockerfile，其中加入了 `ONBUILD` 指令。具體內容如下：
+
+<br>
+
+```dockerfile
+# 基底鏡像是 ubuntu:20.04 必須要指定基底鏡像
+FROM ubuntu:20.04
+# 可選填，作者聯絡資訊
+MAINTAINER Johnny Wang "Jarvan1110@gmail.com"
+# apt-get install 有時候要輸入 y 來繼續，設定 noninteractive 可以預設 y
+ENV UBUNTU_FRONTEND noninteractive
+# 時間標記，用處之後會講
+ENV UPDATED_AT 2020-12-17
+# 建構步驟，以 nginx 為例，這邊故意輸入錯，方便作 debug 示範
+RUN apt-get update && apt-get install -yqq nginx
+# ONBUILD 建立觸發器
+ONBUILD ADD . /var/www/html/
+# 指定容器使用 80 port，這並不代表可以直接從主機上直接 localhost:80 來訪問，還要作映射設定
+EXPOSE 80
+ENTRYPOINT ["nginx"]
+```
+
+<br>
+
+編寫好 Dockerfile 之後繼續在同一層資料夾中建立一個 index.html，內容隨便打，最後需要看到如下畫面才算完成。
+
+![3](imgs/3.png)
+
+<br>
+
+接下來建構這個鏡像：
+
+```cmd
+sudo docker build -t="johnny1110/nginx" . 
+```
+
+<br>
+
+建構完成，此時可以把這個鏡像運行起來進入內部看看，找一下 `/var/www/html/` 資料夾內是否有 index.html 的存在。這邊沒有實際示範，但是可以很負責任的說，我們並不能看到 index.html 出現。因為 `ONBUILD` 指令並不是服務於本身這個鏡像的，而是其子鏡像。
+
+<br>
+
+為了驗證 `ONBUILD` 的作用，我們建立一個 `johnny1110/nginx` 的子鏡像。
+
+建立一個新的資料夾，名稱為 webapp，並建立 Dockerfile 與 index.html：
+
+
+```bash
+mkdir webapp
+cd webapp
+touch Dockerfile
+touch index.html
+```
+
+<br>
+
+編輯 Dockerfile，內容如下：
+
+```dockerfile
+FROM johnny1110/nginx
+MAINTAINER Johnny Wang
+ENV APPLICATION_NAME webapp
+ENV ENVIRONMENT dev
+```
+
+<br>
+
+index.html 內容也隨便打，最後檢查一下大概會像下面這樣：
+
+![4](imgs/4.png)
+
+<br>
+<br>
+
+一切都沒問題，接下來就是把他建構成鏡像了：
+
+```bash
+sudo docker build -t="johnny1110/webapp" .
+```
+
+<br>
+
+建構好後，執行此鏡像：
+
+```bash
+sudo docker run -d -p 8080:80 --name=webapp johnny1110/webapp -g "daemon off;"
+```
+
+<br>
+
+完成後使用瀏覽器或 `curl` 訪問 `localhost:8080`：
+
+![5](imgs/5.png)
+
+<br>
+
+通過實做應該會比較好理解 `ONBUILD` 的作用，但是要注意的是，`ONBUILD` 只能作用於子鏡像，至於孫子輩的鏡像是吃不到 `ONBUILD` 的。
