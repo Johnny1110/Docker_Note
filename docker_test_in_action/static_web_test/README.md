@@ -118,18 +118,142 @@ touch Dockerfile
 <br>
 <br>
 
+## 靜態文件
+
+<br>
+
+進入 website 資料夾內，建立所需的靜態文件：
+
+<br>
+
+index.html：
+
+```html
+<h1>hello world!! I'm a simple container with nginx</h1>
+```
+
+<br>
+<br>
+
+---
+
+<br>
+<br>
+
 ## 編寫 Dockerfile
 
 <br>
 
+上面準備工作做好之後，接下來就是要開始編寫 Dockerfile 了：
+
+```dockerfile
+FROM ubuntu:20.04
+MAINTAINER Johnny Wang "jarvan1110@gmail.com"
+ENV REFRESHED_AT 2020-12-17
+# 更新 apt-get, 安裝 nginx
+RUN apt-get -yqq update && apt-get -yqq install nginx
+# 建立用來存放靜態文件的資料夾
+RUN mkdir -p /var/www/html/website
+# 將 nginx 設定檔加入到鏡像中
+ADD nginx/global.conf /etc/nginx/conf.d/
+ADD nginx/nginx.conf /etc/nginx/
+# 對外開放 80 port
+EXPOSE 80
+```
+
+隨然有寫註解，但是還是多囉唆一點， `apt-get` 之前的部份就不講了，在那之後首先要建立 `website` 資料夾，之後會用於註冊成 volume。然後將之前放置在 `/nginx` 資料夾內的設定檔加入到鏡像中。
+
+<br>
+<br>
+
+
+以上就是所有的文件編寫準備工作，接下來開始正是建造鏡像跟部屬工作。
+
+<br>
+<br>
+
+---
+
+<br>
+<br>
+
+## 建構鏡像
+
+<br>
+
+現在讓我們退回到 Dockerfile 所在的工作目錄 ：
+
+<br>
+
+![2](imgs/2.png)
+
+<br>
+
 ```bash
-mkdir sample
-cd sample
-touch Dockerfile
+sudo docker build -t="johnny1110/nginx" .
 ```
 
 <br>
 
-```dockerfile
+![3](imgs/3.png)
 
+<br>
+<br>
+
+---
+
+<br>
+<br>
+
+## 運行鏡像
+
+<br>
+<br>
+
+```bash
+sudo docker run -d -p 8080:80 --name website -v $PWD/website:/var/www/html/website johnny1110/nginx nginx
 ```
+
+<br>
+
+這一行指令還是有必要再解釋一下的，雖然在之前都已經分別詳細解釋過用法了。
+
+* `-d` 告知 docker 背景運行這個容器。
+
+* `-p 8080:80` 容器內 80 port 綁定到主機 8080 port。
+
+* `--name` 指定容器名稱。
+
+* `-v <主機 volume 位置>:<容器 volume 位置>` 指定 volume，關於 volume 正詳細的資訊可以參考這裡 [任意門](../../image/dockerfile_cmd/README.md)。
+
+* `johnny1110/nginx` 是要運行的鏡像名稱。
+
+* `nginx` 容器要執行的命令。
+
+<br>
+<br>
+
+容器啟動之後，使用 `docker ps` 來查看一下目前正在運行中的 container。
+
+<br>
+
+![4](imgs/4.png)
+
+<br>
+
+一切正常，就讓我們開啟瀏覽器輸入 `localhost:8080` 試試看：
+
+![5](imgs/5.png)
+
+<br>
+
+以上就完成了我們對 nginx 靜態網站測試環境建置。接下來我們可以把 `website` 裡面的 `index.html`
+ 改一下試試看，回去重整頁面的話，畫面會立即更新。
+
+ <br>
+
+ ```html
+<h1>Hello! herez Johnny!!!</h1>
+ ```
+
+![6](imgs/6.png)
