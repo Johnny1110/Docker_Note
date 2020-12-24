@@ -148,7 +148,7 @@ Docker 1.9 版本之後發布了 Docker Networking 功能，它允許使用者�
 
 * 輸入 `http://localhost:4000/redis/set?key=test&value=123` 就可以像 redis 插入一條 record。（key=test, value=123），並回傳 success 資訊。
 
-* 輸入 `http://localhost:4000/redis/get?key=test` 回回傳 redis 中 key=test 的資料。
+* 輸入 `http://localhost:4000/redis/get?key=test` 會回傳 redis 中 key=test 的資料。
 
 
 
@@ -210,7 +210,7 @@ sudo docker network inspect app
 <br>
 <br>
 
-以上，我們已經完成了 Docker 網路的建立，接下來就是要把鏡像套用盡網路了。接下來先把 redis 啟動起來：
+以上，我們已經完成了 Docker 網路的建立，接下來就是要把鏡像套用進網路了。接下來先把 redis 啟動起來：
 
 ```
 sudo docker run -d --net=app --name=redis redis
@@ -382,7 +382,7 @@ sudo docker run -d -p 4000:4000 --name=rediswebapp --link=redis:db johnny1110/re
 
 <br>
 
-![12](imgs/12.png)
+![12](imgs/12.jpg)
 
 <br>
 
