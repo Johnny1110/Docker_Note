@@ -225,7 +225,7 @@ sudo docker run -d --net=app --name=redis redis
 
 <br>
 
-![8](imgs/8.png)
+![8](imgs/8.jpg)
 
 <br>
 
@@ -252,7 +252,7 @@ sudo docker run -d -p 4000:4000 --net=app --name=rediswebapp johnny1110/redisweb
 
 <br>
 
-![9](imgs/9.png)
+![9](imgs/9.jpg)
 
 <br>
 
@@ -390,7 +390,7 @@ sudo docker run -d -p 4000:4000 --name=rediswebapp --link=redis:db johnny1110/re
 
 <br>
 
-![13](imgs/13.png)
+![13](imgs/13.jpg)
 
 <br>
 
