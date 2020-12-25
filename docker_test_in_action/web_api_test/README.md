@@ -14,6 +14,16 @@
 
 source code 可以在這邊下載：
 
-* [redis_test.tar.xz](code/redis_test.tar.xz)
+* Linux 下載 : [redis_test.tar.xz](source_code_download/redis_test.tar.xz)
 
-* [redis_test.zip](code/redis_test.zip)
+* Windows 下載 : [redis_test.zip](source_code_download/redis_test.zip)
+
+<br>
+
+關於這個 demo 的實作，有需要的話可以參考這邊 ([傳送門](demo_code))，只建議有 Spring Boot 開發背景的人看。
+
+<br>
+<br>
+<br>
+<br>
+
