@@ -145,5 +145,59 @@ sudo docker run -d --name=redis --net=app redis
  * http://localhost:4000/redis/get?key=test66
 
 
+<br>
+<br>
+<br>
+<br>
+
+接下來的內容，只有下載了 source code 之後才能跟著實做，沒有下載跟著看過就好了：
+
+我們來到專案目錄，編輯 BaseController.java 如下：
+
+<br>
+
+### BaseController.java
+
+<br>
+
+```java
+@RestController
+public class BaseController {
+
+    @GetMapping("/")
+    public String home(){
+        return "welcome to redis web app, this is version 2.";
+    }
+}
+```
+
+我們更新了一下歡迎語，cd 到與 pom.xml 同級目錄，重新 build jar 檔。
+
+<br>
+
+```bash
+mvn clean package
+```
+
+<br>
 
 
+重新 build 好新的 jar 檔之後，把他放到先前我們指定的 volumn 中。
+
+![1](imgs/1.jpg)
+
+<br>
+
+放置好後，直接重啟容器：
+
+```bash
+sudo docker restart rediswebapp
+```
+
+<br>
+
+重新訪問歡迎頁，會發現首頁變成我們剛剛改的內容：
+
+<br>
+
+![4](imgs/4.png)
