@@ -170,6 +170,8 @@ services:
 
   web:
     build: .
+    depends_on:
+      - redis # depends_on 設定為 redis 的話，web 會在 redis 完整啟動後再啟動
     ports:
       - "5000:5000"
     volumes:
