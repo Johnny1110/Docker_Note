@@ -74,7 +74,7 @@ Docker 核心三巨頭 docker-machine丶docker-compose丶 __docker-swarm__。在
 
 <br>
 
-圖片中可以看到有 3 個 node，它們分別運行了紫色與綠色的容器，紫色的容器都是來自同一個鏡像，我們將這些稱這些容器統一稱為 service，綠色容器們也是一樣道理。在這張圖內一共有 2 個服務正在被 docker-swarm 運行。
+圖片中可以看到有 3 個 node，它們分別運行了紫色與綠色的容器，紫色的容器都是來自同一個鏡像，我們將這些稱這些容器統一稱為 service，綠色容器們也是一樣道理。在這張圖內一共有 2 個服務（service）正在被 docker-swarm 運行。
 
 <br>
 <br>
@@ -82,4 +82,8 @@ Docker 核心三巨頭 docker-machine丶docker-compose丶 __docker-swarm__。在
 <br>
 
 ## 實作
+
+<br>
+
+* [docker-swarm 基礎操作](basic/README.md)
 
