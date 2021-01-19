@@ -340,6 +340,10 @@ docker run -v /home/johnny/lib/data:/data ubuntu ls /data
 
 <br>
 
+這樣做有一點要注意，__主機上的資料夾內容永遠會覆蓋容器內資料夾 !__，既使主機的資料夾是空的甚至不存在，容器內的資料夾也會被清空。並不存在說主動把容器內的資料掛到外面來的說法。
+
+<br>
+
 這樣一來本機的 `/home/johnny/lib/data` 資料夾就綁定到容器內的 `/data` 了。
 
 <br>
