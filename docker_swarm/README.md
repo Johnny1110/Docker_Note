@@ -87,3 +87,8 @@ Docker 核心三巨頭 docker-machine丶docker-compose丶 __docker-swarm__。在
 
 * [docker-swarm 基礎操作](basic/README.md)
 
+<br>
+
+* [docker swarm 部屬 Spring Boot + redis](springboot_redis/README.md)
+
+<br>
