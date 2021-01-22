@@ -1,0 +1,24 @@
+version: "3.5" # 3.5 版之後才可以自訂 network 名稱
+
+networks:
+  mynet:
+    name: mynet
+    driver: overlay # docker-swarm 專屬網路驅動
+
+services:
+  
+  readfileapp:
+    image: johnny1110/readfileapp
+    ports:
+      - "5000:5000"
+    networks:
+      - mynet
+    volumes:
+      - /mnt/docker_swarm_volume/:/tmp/webapp/data/
+    deploy:
+      replicas: 2 # 啟動 2 個複製品
+      update_config:
+        parallelism: 2 # 一次平行更新 2 個
+      restart_policy:
+        condition: any # 在任何情況下嘗試重啟
+  
