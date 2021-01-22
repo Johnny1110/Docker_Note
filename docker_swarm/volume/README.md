@@ -205,6 +205,11 @@ sudo mount 10.140.0.2:/mnt/docker_swarm_volume /mnt/docker_swarm_volume
 sudo docker pull johnny1110/readfileapp
 ```
 
+如果對這個 java web 應用感興趣可以下在這個壓縮檔 source code，我把 Dockerfile 一併放進來了。
+
+[swarm-lib.zip](swarm-lib.zip)
+
+
 <br>
 
 直接建立 [docker-compose.yml](docker-compose.yml)：
@@ -265,5 +270,6 @@ sudo docker stack deploy -c docker-compose.yml fzo
 
 ![7](imgs/7.jpg)
 
+<br>
 <br>
 
