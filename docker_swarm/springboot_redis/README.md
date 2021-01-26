@@ -113,7 +113,7 @@ sudo docker stack deploy -c docker-compose.yml redis_web
 
 <br>
 
-![2](IMGS/2.JPG)
+![2](imgs/2.jpg)
 
 <br>
 
