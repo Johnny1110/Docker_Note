@@ -526,7 +526,7 @@ docker build --build-arg build=1111 -t johnny1110/webapp .
 <br>
 <br>
 
-以防忘記，這邊簡單重述一下什麼是基礎鏡像假術我們今天要建立一個 Dockerfile:
+以防忘記，這邊簡單重述一下什麼是基礎鏡像假設我們今天要建立一個 Dockerfile:
 
 ```dockerfile
 FROM ubuntu:20.04
