@@ -16,7 +16,7 @@
 
 <br>
 
-`docker push` 是推送鏡像的指令，簡如我們要推送我們製作的 web_app 鏡像，如果還未登入請先使用 `docker login` 指令登入：
+`docker push` 是推送鏡像的指令，假如我們要推送我們製作的 web_app 鏡像，如果還未登入請先使用 `docker login` 指令登入：
 
 ```bash
 sudo docker push johnny1110/webapp
@@ -34,7 +34,7 @@ sudo docker push johnny1110/webapp
 
 <br>
 
-此時可以就可以通知其他 cowork 的夥伴去把你的鏡像 pull 下來運行了，找一台新的 PC 或者新的環境試著 pull 一下：
+此時可以就可以通知其他 coworker 的夥伴去把你的鏡像 pull 下來運行了，找一台新的 PC 或者新的環境試著 pull 一下：
 
 ```bash
 sudo docker pull johnny1110/webapp

@@ -279,7 +279,7 @@ volume 的觀念對 docker 來說非常重要，這在後面會單獨抽出來�
 
 * 一個容器可以不必跟其他容器共享 volume。
 
-* 在主機上對 volume 作修改可以立即對容器生效。
+* 在主機上對 volume 做修改可以立即對容器生效。
 
 * volumne 會一直存在並被 docker 記錄直到沒有容器使用它。
 
@@ -492,7 +492,7 @@ ARG webapp_user=johnny
 
 <br>
 
-第二行 `webapp_user` 被指定了一個預設值，如果在使用建構指令 `docker build ` 時沒有為他指定值就會使用 `johnny` 這個預設時。
+第二行 `webapp_user` 被指定了一個預設值，如果在使用建構指令 `docker build ` 時沒有為他指定值就會使用 `johnny` 這個預設值。
 
 <br>
 

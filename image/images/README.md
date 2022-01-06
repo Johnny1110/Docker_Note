@@ -31,5 +31,5 @@ Docker Hub 上有兩種類型的倉庫，一種是用戶倉庫 （user repositor
 
 * 所有本地端鏡像都保存在 `/var/lib/docker` 目錄下。
 
-* 所有容器都飽存在 `/var/lib/docker/containers` 內。
+* 所有容器都保存在 `/var/lib/docker/containers` 內。
 ---
