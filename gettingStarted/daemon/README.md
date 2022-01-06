@@ -125,7 +125,7 @@ sudo docker exec -t -i daemon_container /bin/bash
 sudo docker stop daemon_container
 ```
 
-`docker stop` 會讓 container 正常離開，如果沒有正常關閉（遇　bug 關不掉）可以用 `docker kill` 來強行關閉。
+`docker stop` 會讓 container 正常離開，如果沒有正常關閉（遇 bug 關不掉）可以用 `docker kill` 來強行關閉。
 
 <br>
 <br>

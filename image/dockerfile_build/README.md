@@ -79,7 +79,7 @@ Dockerfile 由指令與參數構成，指令就如 `FROM`丶`MAINTAINER`丶`ENV`
 
 <br>
 
-Dockerfile 在建構最終鏡像之前對每一行的指令都會創建一個新的鏡像，然後對剛創建的鏡像再運行一個容器，依次類推直到所有指令都成功執行完畢。這樣做的好處是我們可以在中途某一個指令壞掉的時候 `docker exec` 進入那一步產出的臨時容器進行 debug。
+Dockerfile 在建構最終鏡像之前對每一行的指令都會創建一個新的鏡像，然後對剛創建的鏡像再運行一個容器，以此類推直到所有指令都成功執行完畢。這樣做的好處是我們可以在中途某一個指令壞掉的時候 `docker exec` 進入那一步產出的臨時容器進行 debug。
 
 <br>
 <br>
@@ -89,7 +89,7 @@ Dockerfile 在建構最終鏡像之前對每一行的指令都會創建一個新
 
 ```sh
 cd static_web
-sudo docker build -t="johnny1110/stataic_web" .
+sudo docker build -t="johnny1110/static_web" .
 ```
 
 <br>

@@ -6,7 +6,7 @@
 
 <br>
 
-我們可以從 Docker Registry 上拉取需要的鏡像到本地端，例如我們可以從 Docker Hub 上拉取其他本的 Ubuntu。
+我們可以從 Docker Registry 上拉取需要的鏡像到本地端，例如我們可以從 Docker Hub 上拉取其他版本的 Ubuntu。
 
 <br>
 
