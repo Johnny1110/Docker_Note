@@ -10,7 +10,7 @@
 
 <br>
 
-node.js 前端開發者習慣使用 webpack 來即時預覽協助自己編寫端，但是並不能即時模擬生產環境狀況。舉 __vue-cli__ 來說，編寫前端的時候會分出很多個部件 js 檔，編譯出結果後回得到 index.html 與 main.js 兩個檔案。我們可以在真正部屬上 server 之前，在本機上先部屬測試看看，確認沒問題之後甚至不用在 server 上建制環境，只要把我們測試好的 docker image 搬上 server 執行。
+node.js 前端開發者習慣使用 webpack 來即時預覽協助自己編寫端，但是並不能即時模擬生產環境狀況。舉 __vue-cli__ 來說，編寫前端的時候會分出很多個部件 js 檔，編譯出結果後會得到 index.html 與 main.js 兩個檔案。我們可以在真正部屬上 server 之前，在本機上先部屬測試看看，確認沒問題之後甚至不用在 server 上建置環境，只要把我們測試好的 docker image 搬上 server 執行。
 
 <br>
 

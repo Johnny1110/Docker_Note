@@ -8,7 +8,7 @@
 
 關於入門的實做 lib 我是直接從 docker 官方文件上照搬過來的，多少會作一些刪減，如果想要完整的學習請勿必要參考[官方文件](https://docs.docker.com/compose/gettingstarted/)。
 
-請在確實安裝好 docker 與 docker-compose 之後再進行後須操作。
+請在確實安裝好 docker 與 docker-compose 之後再進行後續操作。
 
 <br>
 <br>
@@ -21,7 +21,7 @@
 
 <br>
 
-建立一個實驗資目錄：
+建立一個實驗目錄：
 
 ```bash
 mkdir testcompose
