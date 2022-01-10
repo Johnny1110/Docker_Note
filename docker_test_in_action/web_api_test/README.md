@@ -182,7 +182,7 @@ mvn clean package
 <br>
 
 
-重新 build 好新的 jar 檔之後，把他放到先前我們指定的 volumn 中。
+重新 build 好新的 jar 檔之後，把他放到先前我們指定的 volume 中。
 
 ![1](imgs/1.jpg)
 
